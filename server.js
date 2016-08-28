@@ -2,6 +2,10 @@ var PORT = process.env.PORT || 3000;
 
 var express = require("express");
 
+var moment = require("moment");
+
+var now = moment();
+
 var app = express();
 
 var http = require("http").Server(app);
@@ -14,12 +18,14 @@ io.on("connection", function(socket){
  socket.on("message",function(message){
      console.log("Message Received:"+message.text);
      //socket.broadcast.emit("message", message);
+     message.timstamp = now.valueOf();
      io.emit("message", message);
  })
     
     
     socket.emit("message",{
-        text : "Hi There!"
+        text : "Hi There!",
+        timstamp : now.valueOf()
     })
     
 })

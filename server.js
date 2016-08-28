@@ -8,8 +8,19 @@ var http = require("http").Server(app);
 
 var io = require("socket.io")(http);
 
-io.on("connection", function(){
+io.on("connection", function(socket){
     console.log("Client connected via socket");
+    
+ socket.on("message",function(message){
+     console.log("Message Received:"+message.text);
+     socket.broadcast.emit("message", message);
+ })
+    
+    
+    socket.emit("message",{
+        text : "Hi There!"
+    })
+    
 })
 
 app.use(express.static(__dirname + "/public"));

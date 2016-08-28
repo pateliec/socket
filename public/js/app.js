@@ -5,5 +5,18 @@ socket.on("connect", function(){
 })
 
 socket.on("message", function(message){
-    console.log(message.text);
+    //console.log(message.text);
+    
+    $('#chat').val( $('#chat').val() + " " + message.text );
+})
+
+$("document").ready(function(){
+        $("#submit").click(function(){
+        socket.emit("message", {
+            text: $("#message").val()
+        });
+
+        $("#message").val('');
+        $("#message").focus();
+    })
 })
